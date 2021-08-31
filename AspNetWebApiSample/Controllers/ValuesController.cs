@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,9 +10,17 @@ namespace AspNetWebApiSample.Controllers
 {
     public class ValuesController : ApiController
     {
+        private readonly ITransactionManager _transactionManager;
+
+        public ValuesController(ITransactionManager transactionManager)
+        {
+            _transactionManager = transactionManager;
+        }
+
         // GET api/values
         public IEnumerable<string> Get()
         {
+            _transactionManager.SendMoney(new TransferInfo());
             return new string[] { "value1", "value2" };
         }
 
